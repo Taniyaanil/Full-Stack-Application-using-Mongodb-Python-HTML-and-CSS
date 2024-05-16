@@ -1,0 +1,58 @@
+<!-- hotel_detail.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Detail</title>
+    <style>
+        .container {
+            background-color: goldenrod;
+            max-width: 900px; /* Adjust the max-width as needed */
+            margin: 0 auto; /* Center align the container */
+            padding: 20px; /* Add some padding for spacing */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hotel Detail</h1>
+
+        <img src="{{ hotel.image_url }}" alt="{{ hotel.name }}">
+        <h2>{{ hotel.name }}</h2>
+        <p><strong>Location:</strong> {{ hotel.location.coordinates }}</p>
+        <p><strong>Description:</strong> {{ hotel.description }}</p>
+        <p><strong>Rating:</strong> {{ hotel.rating }}</p>
+        {% set price = hotel.price_per_night %}
+        <p><strong>Price per Night:</strong> {{ price.min }} - {{ price.max }}</p>
+        
+        <!-- Display reviews -->
+        <h3>Reviews</h3>
+        <ul>
+            {% for review in hotel.reviews %}
+                <li>
+                    <strong>Author:</strong> {{ review.author }}<br>
+                    <strong>Rating:</strong> {{ review.rating }}<br>
+                    <strong>Comment:</strong> {{ review.comment }}
+                </li>
+            {% endfor %}
+        </ul>
+        
+        <!-- HTML code for the review submission form -->
+        <h3>Write a Review</h3>
+        <form action="/submit_review/{{ hotel._id }}" method="POST">
+            <label for="author">Your Name:</label>
+            <input type="text" id="author" name="author" required><br>
+            <label for="rating">Rating (1-5):</label>
+            <input type="number" id="rating" name="rating" min="1" max="5" required><br>
+            <label for="comment">Your Comment:</label><br>
+            <textarea id="comment" name="comment" rows="4" cols="50" required></textarea><br>
+            <button type="submit">Submit Review</button>
+        </form>
+
+        <!-- Include the review JavaScript file -->
+        <script src="{{ url_for('static', filename='js/review.js') }}"></script>
+    </div>
+</body>
+</html>

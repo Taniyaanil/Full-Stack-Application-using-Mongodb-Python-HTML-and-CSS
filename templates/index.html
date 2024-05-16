@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospitality Website</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <style>
+        /* Define CSS for grid layout */
+        .hotel-grid {
+            background-color: #f4e7e7;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
+            grid-gap: 20px; /* Spacing between grid items */
+            list-style: none; /* Remove list styling */
+            padding: 0; /* Remove padding */
+        }
+
+        .hotel-item {
+            border: 1px solid #ccc; /* Add border to each grid item */
+            padding: 20px; /* Add padding to each grid item */
+            text-align: center; /* Center align content */
+        }
+
+        .hotel-img {
+            width: 200px; /* Set fixed width for images */
+            height: 150px; /* Set fixed height for images */
+            object-fit: cover; /* Ensure images cover the entire box */
+        }
+
+        /* Style for the title */
+        h1 {
+            background-color: antiquewhite;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif   ;
+            font-size: 36px;
+            color: #333;
+            text-align: center;
+            margin-top: 50px; /* Add space above the title */
+        }
+
+        form {
+            display: flex;
+            justify-content: center; /* Center the form horizontally */
+            margin-top: 20px; /* Add space above the form */
+        }
+
+        input[type="text"] {
+            width: 300px; /* Set the width of the text input */
+            padding: 10px; /* Add padding to the text input */
+        }
+
+        button[type="submit"] {
+            width: 200px; /* Set the width of the submit button */
+            padding: 10px; /* Add padding to the submit button */
+            margin-left: 10px; /* Add space between the text input and button */
+        }
+    </style>
+</head>
+<body>
+    <h1>Luxe My Trip</h1>
+    
+    
+    <!-- Search Form -->
+    <form action="/search" method="POST">
+        <input type="text" name="query" placeholder="Search by location or hotel name">
+        <button type="submit">Search</button>
+    </form>
+    
+    
+    
+    <!-- Display hotels in grid layout -->
+
+    <ul class="hotel-grid">
+        {% for hotel in hotels %}
+        <li class="hotel-item">
+            <img class="hotel-img" src="{{ hotel.image_url }}" alt="{{ hotel.name }}">
+            <p><a href="{{ url_for('hotel_detail', hotel_id=hotel._id) }}">{{ hotel.name }}</a></p>
+            <p><strong>Location:</strong> {{ hotel.location.coordinates }}</p>
+            <p><strong>Rating:</strong> {{ hotel.rating }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
